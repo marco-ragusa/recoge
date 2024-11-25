@@ -61,7 +61,7 @@ def generate_tree_xml(directory, indent=2, ignore_paths=None):
             try:
                 with open(item_path, 'r', encoding='utf-8') as file:
                     for line in file:
-                        yield f'{line.strip()}'
+                        yield line.rstrip("\n")
             except Exception as e:
                 yield f'Error reading file: {e}'
             yield f'{indent_space}    ]]></content>'
