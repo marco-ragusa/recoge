@@ -42,14 +42,14 @@ def generate_tree_xml(directory, indent=2):
             yield from generate_tree_xml(item_path, indent + 1)
         elif os.path.isfile(item_path):
             yield f'{indent_space}  <file name="{escape_xml(item)}">'
-            yield f'{indent_space}    <content>'
+            yield f'{indent_space}    <content><![CDATA['
             try:
                 with open(item_path, 'r', encoding='utf-8') as file:
                     for line in file:
-                        yield f'{indent_space}      {escape_xml(line.strip())}'
+                        yield f'{line.strip()}'
             except Exception as e:
-                yield f'{indent_space}      <!-- Error reading file: {e} -->'
-            yield f'{indent_space}    </content>'
+                yield f'Error reading file: {e}'
+            yield f'{indent_space}    ]]></content>'
             yield f'{indent_space}  </file>'
 
     yield f'{indent_space}</directory>'
